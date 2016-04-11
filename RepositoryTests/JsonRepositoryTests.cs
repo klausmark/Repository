@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
 using Repository;
@@ -8,7 +6,7 @@ using Repository;
 namespace RepositoryTests
 {
     [TestFixture]
-    public class JsonRepositoryIntegrationTests
+    public class JsonRepositoryTests
     {
         private const string DEFAULT_FILENAME = "Filename";
 
