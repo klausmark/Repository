@@ -14,11 +14,13 @@ namespace Repository
             var properties = typeOfT.GetProperties(BindingFlags.SetProperty | BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance);
             var sql = $"CREATE TABLE IF NOT EXISTS '{tableName}'('Id' INTEGER PRIMARY KEY ASC";
             foreach (var propertyInfo in properties)
+            {
                 if (propertyInfo.Name.ToLower() != "id") sql += $", '{propertyInfo.Name}'";
+            }
             sql += ");";
-
             using (var sqLiteConnection = new SQLiteConnection(@"Data Source=mydb.db;Version=3;"))
             {
+
                 sqLiteConnection.Open();
                 var command = new SQLiteCommand(sql, sqLiteConnection);
                 command.ExecuteNonQuery();
