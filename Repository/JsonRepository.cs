@@ -7,17 +7,24 @@ namespace Repository
 {
     public class JsonRepository<TData, TId> : IRepository<TData, TId> where TData : IValueItem<TId>
     {
+        internal IJsonConverter JsonConverter = new JsonConverterShim();
+        internal IFile File = new FileShim();
+
         private readonly string _fileName;
         private List<TData> _data;
 
         public JsonRepository(string fileName)
         {
             _fileName = fileName;
-            _data = new List<TData>();
-            if (File.Exists(fileName)) LoadData();
         }
 
-        private void LoadData()
+        public JsonRepository<TData, TId> WithDataLoaded()
+        {
+            LoadData();
+            return this;
+        }
+
+        public void LoadData()
         {
             _data = JsonConvert.DeserializeObject<List<TData>>(File.ReadAllText(_fileName));
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using FluentAssertions;
+using NSubstitute;
 using NUnit.Framework;
 using Repository;
 
@@ -22,29 +23,31 @@ namespace RepositoryTests
         {
             var data = new TestClass { Id = 10 };
             var expectedValue = new[] { data };
-            var sut = GetSutWithData(data);
+            var sut = GetSutWithSavedData(data);
 
             var returnValue = sut.GetAll();
 
             returnValue.ShouldAllBeEquivalentTo(expectedValue);
         }
 
-        private JsonRepository<TestClass, int> GetSutWithData(TestClass data)
+        private JsonRepository<TestClass, int> GetSutWithSavedData(TestClass data)
         {
-            var tmp = GetSut();
-            tmp.Add(data);
-            return tmp;
-        }
-
-        private void CleanupBeforeTest()
-        {
-            if (File.Exists(DEFAULT_FILENAME)) File.Delete(DEFAULT_FILENAME);
+            var sut = GetSut();
+            sut.File.ReadAllText(Arg.Any<string>()).Returns("");
+            return sut;
         }
 
         private JsonRepository<TestClass, int> GetSut()
         {
-            CleanupBeforeTest();
-            return new JsonRepository<TestClass, int>(DEFAULT_FILENAME);
+            var file = Substitute.For<IFile>();
+            var jsonConverter = Substitute.For<IJsonConverter>();
+            var sut = new JsonRepository<TestClass, int>(DEFAULT_FILENAME)
+            {
+                File = file,
+                JsonConverter = jsonConverter
+            };
+            sut.LoadData();
+            return sut;
         }
 
     }

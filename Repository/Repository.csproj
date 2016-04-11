@@ -44,8 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileShim.cs" />
+    <Compile Include="IFile.cs" />
+    <Compile Include="IJsonConverter.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IValueItem.cs" />
+    <Compile Include="JsonConverterShim.cs" />
     <Compile Include="JsonRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
