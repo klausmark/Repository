@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="IRepository.cs" />
     <Compile Include="IValueItem.cs" />
-    <Compile Include="Repository.cs" />
+    <Compile Include="JsonRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
